@@ -64,6 +64,8 @@ public class DetailActivity extends AppCompatActivity {
         populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
+                .placeholder(R.drawable.user_placeholder)
+                .error(R.drawable.user_placeholder_error)
                 .into(ingredientsIv);
 
         setTitle(sandwich.getMainName());
@@ -75,7 +77,12 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
-        descriptionTextView.setText(sandwich.getDescription());
+        String description = sandwich.getDescription();
+        if (description != null && !description.equals("")) {
+            descriptionTextView.setText(description);
+        } else {
+            descriptionTextView.setText(R.string.no_data_found_error_message);
+        }
 
         String placeOfOrigin = sandwich.getPlaceOfOrigin();
         if (placeOfOrigin != null && !placeOfOrigin.equals("")) {
@@ -84,12 +91,12 @@ public class DetailActivity extends AppCompatActivity {
             originTextView.setVisibility(View.VISIBLE);
             originLabelTextView.setVisibility(View.VISIBLE);
         } else {
-            originTextView.setVisibility(View.INVISIBLE);
-            originLabelTextView.setVisibility(View.INVISIBLE);
+            originTextView.setVisibility(View.GONE);
+            originLabelTextView.setVisibility(View.GONE);
         }
 
         List<String> alsoKnownAsList = sandwich.getAlsoKnownAs();
-        if (!alsoKnownAsList.isEmpty()) {
+        if (alsoKnownAsList != null && !alsoKnownAsList.isEmpty()) {
             alsoKnownAsTextView.setText("");
             for (int i=0; i<alsoKnownAsList.size(); i++) {
                 if (i != 0) {
@@ -101,8 +108,8 @@ public class DetailActivity extends AppCompatActivity {
             alsoKnownAsTextView.setVisibility(View.VISIBLE);
             alsoKnownLabelTextView.setVisibility(View.VISIBLE);
         } else {
-            alsoKnownAsTextView.setVisibility(View.INVISIBLE);
-            alsoKnownLabelTextView.setVisibility(View.INVISIBLE);
+            alsoKnownAsTextView.setVisibility(View.GONE);
+            alsoKnownLabelTextView.setVisibility(View.GONE);
         }
 
         String ingredients = new String();

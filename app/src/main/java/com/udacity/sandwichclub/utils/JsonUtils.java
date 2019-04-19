@@ -25,7 +25,6 @@ public class JsonUtils {
     public static Sandwich parseSandwichJson(String json) {
         Sandwich sandwich = new Sandwich();
         try {
-
             JSONObject sandwichJson = new JSONObject(json);
 
             sandwich.setPlaceOfOrigin(sandwichJson.getString(PLACE_OF_ORIGIN));
